@@ -2,7 +2,7 @@
 import xml2js from 'xml2js';
 
 // koa中间件
-export = (): any => {
+export default (): any => {
   return async (ctx: any, next: () => Promise<any>) => {
     let paramsJson = null;
     const contentType = ctx.headers['content-type'] || 'application/json';

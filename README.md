@@ -53,16 +53,10 @@ wxpay.md5({
 3. xmltojson 参数string xml 转json 暴露给外部调用 使用同上
 4. callback_check 支付回调验证 参数object 返回boolean
 ```bash
-由于微信返回是数据流 (本人用的是koa)
-在入口文件配置
-const bodyParser = require('koa-bodyparser');
-App.use(bodyParser());
-
-
 // 路由
-const refund_middleware = require('node-wxpay3/dist/lib/utils/refund_middleware');
-router.post('/refund', refund_middleware(), async ctx => {
-  let result = wxpay.callback_check(ctx.request.body)
+router.post('/refund', async ctx => {
+  // 微信返回的数据是xml格式 调用wxpay.xmltojson() 获得的参数就是data
+  let result = wxpay.callback_check(data)
 ====》 result = true 则校验成功
 ctx.type = 'application/xml';
 ctx.body =
