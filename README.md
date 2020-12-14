@@ -9,7 +9,7 @@
 `npm i node-wxpay3 --save`
 
 ## 版本介绍
-本版本是`2.*.*`相对于旧版本[`1.*.*`](https://github.com/klover2/node-wxpay/blob/master/README.md)做了大的变更，本插件改用typescript重新，合并了旧接口方法。支持`require` 和 `import`两种方法导入。
+本版本是`2.*.*`相对于旧版本[`1.*.*`](https://github.com/klover2/node-wxpay/blob/master/README.md)做了大的变更，本插件改用typescript重写，合并了旧的接口方法。支持`require` 和 `import`两种方法导入。
 
 ## 使用
 `const WxPay = require('node-wxpay3'); ` 或者 `import WxPay from 'node-wxpay3'`
@@ -52,6 +52,27 @@ wxpay.md5({
 2. hmac 参数object 使用同上
 3. xmltojson 参数string xml 转json 暴露给外部调用 使用同上
 4. callback_check 支付回调验证 参数object 返回boolean
+```bash
+由于微信返回是数据流 (本人用的是koa)
+在入口文件配置
+const bodyParser = require('koa-bodyparser');
+App.use(bodyParser());
+
+
+// 路由
+const refund_middleware = require('node-wxpay3/dist/lib/utils/refund_middleware');
+router.post('/refund', refund_middleware(), async ctx => {
+  let result = wxpay.callback_check(ctx.request.body)
+====》 result = true 则校验成功
+ctx.type = 'application/xml';
+ctx.body =
+            `<xml>
+                <return_code><![CDATA[SUCCESS]]></return_code>
+                <return_msg><![CDATA[OK]]></return_msg>
+            </xml>`;
+            return;
+});
+```
 5. publicEncrypt 公钥加密
 ```bash
 wxpay.publicEncrypt(publicKey, data)

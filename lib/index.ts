@@ -159,11 +159,10 @@ export class WxPay2 {
       .type('xml');
 
     // 判断返回格式
-    if (result.type === 'text/plain') {
+    if (result.type === 'text/plain' || result.type === 'text/html' || result.type === 'text/xml') {
       if (result.text.indexOf('<xml>') !== -1) {
         return this._xmltojson(result.text);
       }
-
       return {
         data: result.text,
         return_code: 'SUCCESS',
@@ -177,26 +176,10 @@ export class WxPay2 {
         result_code: 'SUCCESS',
         return_msg: 'OK',
       };
-    } else if (result.type === 'text/html') {
-      console.log(result);
-      console.log(result.text);
-      if (result.text.indexOf('<xml>') !== -1) {
-        return this._xmltojson(result.text);
-      }
-
-      return {
-        data: result.text,
-        return_code: 'SUCCESS',
-        result_code: 'SUCCESS',
-        return_msg: 'OK',
-      };
     } else if (result.type === 'application/xml') {
       return this._xmltojson(result.body.toString());
     } else {
-      return {
-        return_code: 'FAIL',
-        return_msg: '返回数据类型有误',
-      };
+      return result;
     }
   }
 }

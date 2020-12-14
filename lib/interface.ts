@@ -167,7 +167,6 @@ export interface ISendredpack {
   send_name: string;
   re_openid: string;
   total_amount: number;
-  total_num: number;
   wishing: string;
   client_ip: string;
   act_name: string;
