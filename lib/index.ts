@@ -26,6 +26,19 @@ const urls: any = {
   reverse: 'https://api.mch.weixin.qq.com/secapi/pay/reverse', // 撤销订单
   micropay: 'https://api.mch.weixin.qq.com/pay/micropay', // 付款码支付
   authcodetoopenid: 'https://api.mch.weixin.qq.com/tools/authcodetoopenid', // 付款码查询openid
+
+  sendredpack: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack', // 发放红包
+  sendgroupredpack: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack', // 发放裂变红包
+  gethbinfo: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo', // 查询红包记录
+  sendminiprogramhb: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendminiprogramhb', // 小程序红包
+  transfers: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers', // 企业付款到零钱
+  gettransferinfo: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo', // 查询企业付款到零钱
+  pay_bank: 'https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank', // 企业付款到银行卡
+  query_bank: 'https://api.mch.weixin.qq.com/mmpaysptrans/query_bank', // 查询企业付款到银行卡
+  getpublickey: 'https://fraud.mch.weixin.qq.com/risk/getpublickey', // 获取RSA加密公钥
+  send_coupon: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon', // 发放代金券
+  query_coupon_stock: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock', // 查询代金券批次
+  querycouponsinfo: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/querycouponsinfo', // 查询代金券信息
 };
 
 export interface IWxPay {
@@ -51,7 +64,7 @@ export class WxPay2 {
   // 加入其它参数
   protected _joinotherParams(params: object) {
     this._params = {
-      sign_type: 'MD5',
+      // sign_type: 'MD5',
       nonce_str: getNonceStr(),
       ...params,
     };
@@ -146,7 +159,44 @@ export class WxPay2 {
       .type('xml');
 
     // 判断返回格式
+    if (result.type === 'text/plain') {
+      if (result.text.indexOf('<xml>') !== -1) {
+        return this._xmltojson(result.text);
+      }
 
-    return this._xmltojson(result.text);
+      return {
+        data: result.text,
+        return_code: 'SUCCESS',
+        result_code: 'SUCCESS',
+        return_msg: 'OK',
+      };
+    } else if (result.type === 'application/x-gzip') {
+      return {
+        data: result.body,
+        return_code: 'SUCCESS',
+        result_code: 'SUCCESS',
+        return_msg: 'OK',
+      };
+    } else if (result.type === 'text/html') {
+      console.log(result);
+      console.log(result.text);
+      if (result.text.indexOf('<xml>') !== -1) {
+        return this._xmltojson(result.text);
+      }
+
+      return {
+        data: result.text,
+        return_code: 'SUCCESS',
+        result_code: 'SUCCESS',
+        return_msg: 'OK',
+      };
+    } else if (result.type === 'application/xml') {
+      return this._xmltojson(result.body.toString());
+    } else {
+      return {
+        return_code: 'FAIL',
+        return_msg: '返回数据类型有误',
+      };
+    }
   }
 }
