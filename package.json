@@ -1,6 +1,6 @@
 {
   "name": "node-wxpay3",
-  "version": "2.1.1",
+  "version": "2.0.0",
   "description": "微信支付",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,9 +33,11 @@
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.2.0",
-    "koa": "^2.13.0",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
-  }
+  },
+  "files": [
+    "dist"
+   ]
 }

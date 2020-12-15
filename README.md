@@ -51,11 +51,24 @@ wxpay.md5({
 ```
 2. hmac 参数object 使用同上
 3. xmltojson 参数string xml 转json 暴露给外部调用 使用同上
-4. callback_check 支付回调验证 参数object 返回boolean
+4. callback_check 支付回调验证 参数object 返回boolean koa
 ```bash
-// 路由
-router.post('/refund', async ctx => {
-  // 微信返回的数据是xml格式 调用wxpay.xmltojson() 获得的参数就是data
+
+  // 微信返回的数据是text/xml的数据流格式 
+  // 接收数据流并且处理
+  ctx.req.setEncoding('utf8');
+  ctx.req.on('data', function(chunk) {
+      data += chunk;
+  });
+  // getxml 就是xml形式的数据
+  const getxml = await new Promise(function(resolve) {
+        ctx.req.on('end', function() {
+                resolve(data);
+        });
+  });
+
+  // 调用wxpay.xmltojson(getxml) 获得的参数就是data
+  let data = wxpay.xmltojson(getxml)
   let result = wxpay.callback_check(data)
 ====》 result = true 则校验成功
 ctx.type = 'application/xml';
@@ -64,8 +77,7 @@ ctx.body =
                 <return_code><![CDATA[SUCCESS]]></return_code>
                 <return_msg><![CDATA[OK]]></return_msg>
             </xml>`;
-            return;
-});
+            return; d
 ```
 5. publicEncrypt 公钥加密
 ```bash
