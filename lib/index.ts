@@ -84,7 +84,7 @@ export class WxPay2 {
           return (
             params[key] !== undefined &&
             params[key] !== '' &&
-            !['pfx', 'sign', 'key', 'key', 'redirect_url'].includes(key)
+            !['pfx', 'sign', 'key', 'redirect_url'].includes(key)
           );
         })
         .sort()
@@ -104,7 +104,7 @@ export class WxPay2 {
           return (
             params[key] !== undefined &&
             params[key] !== '' &&
-            !['pfx', 'sign', 'key', 'key', 'redirect_url'].includes(key)
+            !['pfx', 'sign', 'key', 'redirect_url'].includes(key)
           );
         })
         .sort()
