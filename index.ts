@@ -58,7 +58,7 @@ class WxPay extends Withdraw {
     let _data: any = {};
     switch (this._params.trade_type) {
       case 'JSAPI':
-        _data['appId'] = this._params.appid;
+        _data['appId'] = this.appid;
         _data['timeStamp'] = `${parseInt(+new Date() / 1000 + '')}`;
         _data['package'] = `prepay_id=${prepay_id}`;
         _data['nonceStr'] = getNonceStr().toLowerCase();
@@ -71,9 +71,9 @@ class WxPay extends Withdraw {
 
         break;
       case 'APP':
-        _data['appid'] = this._params.appid;
+        _data['appid'] = this.appid;
         _data['timestamp'] = `${parseInt(+new Date() / 1000 + '')}`;
-        _data['partnerid'] = this._params.mch_id;
+        _data['partnerid'] = this.mch_id;
         _data['prepayid'] = prepay_id;
         _data['package'] = 'Sign=WXPay';
         _data['noncestr'] = getNonceStr().toLowerCase();
