@@ -39,7 +39,36 @@ const options = {
   };
   const result = await wxpay.unifiedorder(options);
 ```
-其他接口和微信文档路径同名 同上一样使用
+其他接口如下: 如何使用对照微信支付文档和[旧版](https://github.com/klover2/node-wxpay/blob/master/README.md)
+|接口名称|介绍  |
+|--|--|
+|unifiedorder  | 统一下单 |
+|callback_check  | 支付回调验证 |
+|orderquery  | 订单查询 |
+|closeorder  | 关闭订单 |
+|refund  | 申请退款 |
+|refundquery  | 查询退款 |
+|downloadbill  | 下载交易账单 |
+|downloadfundflow  | 下载资金账单 |
+|report  | 交易保障 |
+|batchquerycomment  | 拉取订单评价数据 |
+|micropay  | 付款码支付 |
+|reverse  | 撤销订单(只支持付款码支付的订单才可以撤销，统一下单生成的订单不能撤销) |
+|authcodetoopenid|付款码查询openid|
+|publicEncrypt|公钥加密|
+|sendredpack|发放红包|
+|sendgroupredpack|发放裂变红包|
+|gethbinfo|查询红包记录|
+|sendminiprogramhb|小程序红包|
+|transfers|企业付款到零钱|
+|gettransferinfo|查询企业付款到零钱|
+|pay_bank|企业付款到银行卡API|
+|query_bank|查询企业付款到银行卡|
+|getpublickey|获取RSA加密公钥API|
+|send_coupon|发放代金券|
+|query_coupon_stock|查询代金券批次|
+|querycouponsinfo|查询代金券信息|
+
 
 额外增加的接口：
 1. md5 参数object
