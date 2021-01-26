@@ -1,6 +1,6 @@
 {
   "name": "node-wxpay3",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "微信支付",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,6 +16,14 @@
     "微信支付",
     "微信提现"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klover2/node-wxpay3-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/klover2/node-wxpay3-ts/issues"
+  },
+  "homepage": "https://github.com/klover2/node-wxpay3-ts#readme",
   "author": "klover",
   "license": "ISC",
   "dependencies": {
